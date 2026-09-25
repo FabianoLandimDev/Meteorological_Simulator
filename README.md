@@ -1,60 +1,50 @@
-# METEO OPMET Simulator
+# METEO OPMET Simulator — v2
 
-Simulador educacional 100% client-side para treinamento de evolução meteorológica, confecção de METAR e avaliação básica de gatilhos de SPECI.
+Simulador educacional de evolução meteorológica para treinamento de METAR/SPECI.
 
-## Publicação no GitHub Pages
+## Correção principal da v2
 
-1. Crie um repositório no GitHub.
-2. Copie todos os arquivos deste projeto para a raiz do repositório.
-3. Faça commit e push para `main`.
-4. Em **Settings → Pages**, selecione **Deploy from a branch**, branch `main` e pasta `/root`.
-5. Salve. O GitHub Pages publicará `index.html`.
+A versão anterior carregava vários módulos JavaScript. Um dos módulos (`scenarios.js`) continha literais numéricos com zero à esquerda (por exemplo `090`, `06`, `03`). Como módulos JavaScript são executados em modo estrito, esses literais provocavam erro de sintaxe e impediam todo o aplicativo de iniciar. O resultado era exatamente o comportamento observado: o HTML/CSS aparecia, mas os seletores permaneciam vazios e os botões não reagiam.
 
-Não há backend, Node.js ou banco de dados obrigatório.
+A v2 corrige esses literais e, adicionalmente, consolida o código em **um único `js/app.js`**, carregado com `defer`, reduzindo a quantidade de pontos de falha no GitHub Pages.
+
+## Melhorias
+
+- JavaScript consolidado em um único arquivo: `js/app.js`.
+- Sem `type="module"` e sem cadeia de imports entre arquivos.
+- Caminhos relativos explícitos (`./css/style.css` e `./js/app.js`).
+- Diagnóstico visual de inicialização se o JavaScript não carregar.
+- Botão para recarregar após falha de carregamento.
+- Marcador `window.__METEO_APP_READY__` para confirmar o bootstrap.
+- Mantidos os recursos da v1: cenários, evolução temporal, METAR, SPECI, modo aluno, histórico local e exportação JSON.
 
 ## Estrutura
 
-- `index.html` — interface.
-- `css/style.css` — visual.
-- `js/scenarios.js` — motor de evolução meteorológica.
-- `js/metar.js` — codificação METAR.
-- `js/speci.js` — detector de mudanças significativas para treinamento.
-- `js/validator.js` — correção do METAR digitado pelo aluno.
-- `js/aerodromes.js` — cadastro inicial de aeródromos.
-- `js/app.js` — aplicação.
+```text
+Meteorological_Simulator/
+├── index.html
+├── README.md
+├── .gitignore
+├── css/
+│   └── style.css
+└── js/
+    └── app.js
+```
 
-## Regras meteorológicas
+## Publicação no GitHub Pages
 
-O projeto foi estruturado com base nos conteúdos disponíveis na apostila do usuário e nos conceitos de codificação METAR/SPECI associados às ICA 105-15, ICA 105-16 e ICA 105-17. Entre os pontos implementados estão:
+1. Copie o conteúdo deste projeto para a raiz do repositório `Meteorological_Simulator`.
+2. Faça commit e push.
+3. Em **Settings → Pages**, selecione a branch de publicação e `/ (root)`.
+4. Aguarde a publicação.
+5. No navegador, use `Ctrl+Shift+R` para eliminar cache da versão anterior.
 
-- vento em graus/KT, calma e rajada;
-- visibilidade em incrementos de 50 m até 800 m, 100 m até 5000 m, 1000 m até 9000 m e 9999 para 10 km ou mais;
-- visibilidade mínima condicional;
-- RVR condicional;
-- tempo presente;
-- FEW/SCT/BKN/OVC;
-- bases de nuvens em incrementos de 30 m / 100 ft até 3000 m / 10000 ft;
-- CB e TCU;
-- VV;
-- CAVOK e NSC;
-- temperatura e ponto de orvalho;
-- QNH;
-- tempo recente e wind shear como campos condicionais;
-- evolução meteorológica por cenários;
-- comparação entre estados para sinalizar mudanças que merecem análise de SPECI.
+## Diagnóstico
 
-### Importante
+Se o JavaScript não carregar, a v2 exibe um aviso no topo. Se os campos **Aeródromo** e **Cenário** estiverem preenchidos, o bootstrap foi executado.
 
-Este projeto é um **simulador educacional**. Ele não deve ser utilizado para confecção operacional real sem uma revisão formal contra a edição vigente das publicações DECEA aplicáveis. As regras normativas podem ser alteradas e alguns critérios operacionais de SPECI dependem de contexto, procedimentos locais e documentação vigente.
+No console do navegador (`F12` → Console), erros 404 em `js/app.js` indicam problema de publicação/estrutura do repositório.
 
-## Personalização
+## Aviso
 
-Para inserir seu aeródromo, edite `js/aerodromes.js`.
-
-Para criar novos cenários, edite `js/scenarios.js`.
-
-Para revisar limiares de SPECI, edite `js/speci.js`.
-
-## Licença
-
-Use, modifique e adapte para fins de estudo conforme a licença que você escolher para o seu repositório.
+Ferramenta exclusivamente educacional. As regras de codificação METAR/SPECI e os critérios de emissão devem ser conferidos na documentação normativa vigente antes de qualquer utilização operacional.

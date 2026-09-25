@@ -127,3 +127,21 @@ footer { text-align:center; padding:0 20px 30px; color:var(--muted); font-size:1
   .subgrid { grid-template-columns:repeat(2,1fr); }
   .history-row { grid-template-columns:1fr; }
 }
+
+
+.boot-error {
+  max-width: 1180px;
+  margin: 18px auto 0;
+  padding: 14px 16px;
+  border: 1px solid #b45309;
+  background: #fff7ed;
+  color: #7c2d12;
+  border-radius: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.boot-error span { flex: 1 1 420px; }
+.boot-error code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.boot-error[hidden] { display: none; }
