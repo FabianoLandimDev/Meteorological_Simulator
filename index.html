@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simulador de evolução meteorológica para treinamento METAR/SPECI e OPMET.">
+  <title>METEO OPMET Simulator</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <span class="eyebrow">TREINAMENTO METEOROLÓGICO</span>
+    <h1>METEO OPMET <span>Simulator</span></h1>
+  </div>
+  <div class="top-actions">
+    <button id="btnNew" class="ghost">Novo cenário</button>
+    <button id="btnClear" class="ghost danger">Limpar histórico</button>
+  </div>
+</header>
+
+<main class="container">
+  <section class="control-panel card">
+    <div class="section-title">
+      <div>
+        <span class="eyebrow">CONTROLE</span>
+        <h2>Simulação</h2>
+      </div>
+      <div id="simStatus" class="status-pill idle">PARADO</div>
+    </div>
+
+    <div class="form-grid">
+      <label>Aeródromo
+        <select id="aerodrome"></select>
+      </label>
+      <label>Cenário
+        <select id="scenario"></select>
+      </label>
+      <label>Velocidade
+        <select id="speed">
+          <option value="1">1×</option>
+          <option value="5">5×</option>
+          <option value="10" selected>10×</option>
+          <option value="30">30×</option>
+          <option value="60">60×</option>
+        </select>
+      </label>
+      <label>Modo
+        <select id="mode">
+          <option value="observer">Observador</option>
+          <option value="student">Aluno — confeccionar METAR</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="button-row">
+      <button id="btnStart" class="primary">▶ Iniciar</button>
+      <button id="btnPause" class="secondary">Ⅱ Pausar</button>
+      <button id="btnStep" class="secondary">＋ Avançar 10 min</button>
+      <button id="btnMetar" class="secondary">Gerar METAR</button>
+      <button id="btnSpeci" class="secondary">Verificar SPECI</button>
+    </div>
+  </section>
+
+  <section class="dashboard-grid">
+    <article class="card weather-card">
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">OBSERVAÇÃO</span>
+          <h2 id="stationTitle">—</h2>
+        </div>
+        <div class="utc-clock" id="utcClock">—</div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric"><span>Vento</span><strong id="wind">—</strong><small id="gust">—</small></div>
+        <div class="metric"><span>Visibilidade</span><strong id="visibility">—</strong><small id="minVis">—</small></div>
+        <div class="metric"><span>Tempo presente</span><strong id="weather">—</strong><small id="recent">—</small></div>
+        <div class="metric"><span>Nuvens</span><strong id="clouds">—</strong><small id="vertical">—</small></div>
+        <div class="metric"><span>Temperatura</span><strong id="temp">—</strong><small id="dew">—</small></div>
+        <div class="metric"><span>Pressão</span><strong id="qnh">—</strong><small id="qfe">—</small></div>
+      </div>
+
+      <div class="subgrid">
+        <div class="mini-card"><span>RVR</span><b id="rvr">—</b></div>
+        <div class="mini-card"><span>Wind shear</span><b id="ws">—</b></div>
+        <div class="mini-card"><span>Fase</span><b id="phase">—</b></div>
+        <div class="mini-card"><span>Índice de instabilidade</span><b id="instability">—</b></div>
+      </div>
+    </article>
+
+    <article class="card opmet-card">
+      <div class="section-title">
+        <div>
+          <span class="eyebrow">OPMET</span>
+          <h2>Mensagem codificada</h2>
+        </div>
+        <button id="btnCopy" class="ghost">Copiar</button>
+      </div>
+
+      <div id="messageBox" class="message-box">Inicie uma simulação.</div>
+
+      <div id="studentArea" class="student-area hidden">
+        <label>Confeccione o METAR
+          <input id="studentInput" autocomplete="off" spellcheck="false"
+                 placeholder="Digite o METAR completo...">
+        </label>
+        <button id="btnCheck" class="primary">Verificar resposta</button>
+        <div id="feedback" class="feedback"></div>
+      </div>
+
+      <div id="speciBox" class="speci-box">
+        <span class="eyebrow">DECISÃO SPECI</span>
+        <strong id="speciDecision">Aguardando observação anterior.</strong>
+        <p id="speciReasons"></p>
+      </div>
+    </article>
+  </section>
+
+  <section class="card timeline-card">
+    <div class="section-title">
+      <div>
+        <span class="eyebrow">EVOLUÇÃO</span>
+        <h2>Linha do tempo</h2>
+      </div>
+      <button id="btnExport" class="ghost">Exportar sessão JSON</button>
+    </div>
+    <div id="timeline" class="timeline"></div>
+  </section>
+
+  <section class="card history-card">
+    <div class="section-title">
+      <div>
+        <span class="eyebrow">HISTÓRICO</span>
+        <h2>METAR / SPECI gerados</h2>
+      </div>
+    </div>
+    <div id="history" class="history-list"></div>
+  </section>
+</main>
+
+<footer>
+  <p>METEO OPMET Simulator • ferramenta educacional • regras devem ser conferidas na publicação normativa vigente antes de uso operacional.</p>
+</footer>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
